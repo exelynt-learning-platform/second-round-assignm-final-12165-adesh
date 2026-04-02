@@ -17,10 +17,19 @@ public class PaymentService {
     // Payment Logic
     public String pay(double amount) {
 
-        if (amount > 0) {
-            return "SUCCESS";
+        // Simulated Payment Gateway (Stripe/PayPal)
+        if (amount <= 0) {
+            return "FAILED";
         }
-        return "FAILED";
+
+        // simulate gateway response
+        boolean paymentSuccess = true;
+
+        if (paymentSuccess) {
+            return "SUCCESS";
+        } else {
+            return "FAILED";
+        }
     }
 
     // Create Payment

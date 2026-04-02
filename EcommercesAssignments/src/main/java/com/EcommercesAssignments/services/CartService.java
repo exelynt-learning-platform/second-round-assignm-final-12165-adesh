@@ -28,7 +28,8 @@ public class CartService {
 
         // Fetch User from DB
         Long userId = cart.getUser().getId();
-        User user = userRepository.findById(userId).orElseThrow();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found With id" + userId));
         cart.setUser(user);
 
         // Fetch Products for Cart Items
@@ -36,7 +37,8 @@ public class CartService {
 
         for (CartItem item : items) {
             Long productId = item.getProduct().getId();
-            Product product = productRepository.findById(productId).orElseThrow();
+            Product product = productRepository.findById(productId)
+                    .orElseThrow(() -> new RuntimeException("Product Not Find "));
             item.setProduct(product);
         }
 
@@ -45,13 +47,15 @@ public class CartService {
 
     // Get Cart By Id
     public Cart getCartById(Long id) {
-        return cartRepository.findById(id).orElseThrow();
+        return cartRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cart not found with id: " + id));
     }
 
     // Update Cart
     public Cart updateCart(Long id, Cart cart) {
 
-        Cart existingCart = cartRepository.findById(id).orElseThrow();
+        Cart existingCart = cartRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cart not found with id: " + id));
 
         existingCart.setUser(cart.getUser());
         existingCart.setItems(cart.getItems());
