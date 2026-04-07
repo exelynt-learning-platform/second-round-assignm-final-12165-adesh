@@ -27,6 +27,10 @@ public class CartService {
     public Cart addToCart(Cart cart) {
 
         // Fetch User from DB
+        if (cart.getUser() == null) {
+            throw new RuntimeException("User is required");
+        }
+
         Long userId = cart.getUser().getId();
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found With id" + userId));
@@ -36,9 +40,16 @@ public class CartService {
         List<CartItem> items = cart.getItems();
 
         for (CartItem item : items) {
+
             Long productId = item.getProduct().getId();
+
             Product product = productRepository.findById(productId)
-                    .orElseThrow(() -> new RuntimeException("Product Not Find "));
+                    .orElseThrow(() -> new RuntimeException("Product not found"));
+
+            if (product.getStockQuantity() <= 0) {
+                throw new RuntimeException("Product out of stock");
+            }
+
             item.setProduct(product);
         }
 

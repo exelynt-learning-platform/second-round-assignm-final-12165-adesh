@@ -12,12 +12,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
 @Data
 public class Cart {
 

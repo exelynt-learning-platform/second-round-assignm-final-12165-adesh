@@ -13,12 +13,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
 @Data
 @Table(name = "orders")
 public class Order {
@@ -34,7 +30,7 @@ public class Order {
 
     private double amount;
     private String paymentStatus;
-    private String DelivaryAddres;
+    private String deliveryAddress;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Payment payment;

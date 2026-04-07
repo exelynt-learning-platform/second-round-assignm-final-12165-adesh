@@ -28,7 +28,8 @@ public class ProductService {
     }
 
     public Product update(Long id, Product product) {
-        Product p = productRepo.findById(id).get();
+        Product p = productRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
         if (p != null) {
             p.setName(product.getName());
             p.setPrice(product.getPrice());

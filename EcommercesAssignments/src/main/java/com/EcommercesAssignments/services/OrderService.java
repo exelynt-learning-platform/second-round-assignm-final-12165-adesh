@@ -38,7 +38,7 @@ public class OrderService {
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
         ord.setAmount(order.getAmount());
-        ord.setDelivaryAddres(order.getDelivaryAddres());
+        ord.setDeliveryAddress(order.getDeliveryAddress());
         ord.setProduct(order.getProduct());
 
         String status = paymentService.pay(order.getAmount());

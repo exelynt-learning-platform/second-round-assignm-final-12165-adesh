@@ -3,6 +3,8 @@ package com.EcommercesAssignments.security;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +18,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -35,7 +39,7 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         String header = request.getHeader("Authorization");
-        System.out.println("Authorization Header: " + header);
+        logger.info("Authorization Header: {}", header);
 
         if (header != null && header.startsWith("Bearer ")) {
             String token = header.substring(7);
@@ -43,7 +47,7 @@ public class JwtFilter extends OncePerRequestFilter {
             try {
                 String email = jwtUtil.extractusername(token);
 
-                System.out.println("User Email from Token: " + email);
+                logger.info("User Email from Token: {}", email);
 
                 if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
@@ -52,14 +56,14 @@ public class JwtFilter extends OncePerRequestFilter {
 
                     SecurityContextHolder.getContext().setAuthentication(auth);
 
-                    System.out.println("Authentication set successfully");
+                    logger.info("Authentication set successfully");
                 }
 
             } catch (Exception e) {
-                System.out.println("Invalid Token: " + e.getMessage());
+                logger.error("Invalid Token: {}", e.getMessage());
             }
         } else {
-            System.out.println("No Authorization header found");
+            logger.warn("No Authorization header found");
         }
 
         filterChain.doFilter(request, response);
